@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchTokenThunk } from '../redux/actions';
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     name: '',
     email: '',
@@ -20,6 +23,7 @@ export default class Login extends Component {
 
   render() {
     const { name, email, isDisabled } = this.state;
+    const { getToken } = this.props;
     return (
 
       <section>
@@ -29,7 +33,6 @@ export default class Login extends Component {
           value={ name }
           name="name"
           onChange={ this.handleChange }
-          isRequired
         />
         <input
           type="email"
@@ -37,10 +40,26 @@ export default class Login extends Component {
           value={ email }
           name="email"
           onChange={ this.handleChange }
-          isRequired
         />
-        <button type="button" data-testid="btn-play" disabled={ isDisabled }>Play</button>
+        <button
+          type="button"
+          data-testid="btn-play"
+          disabled={ isDisabled }
+          onClick={ getToken }
+        >
+          Play
+        </button>
       </section>
     );
   }
 }
+
+Login.propTypes = {
+  getToken: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  getToken: () => dispatch(fetchTokenThunk()),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

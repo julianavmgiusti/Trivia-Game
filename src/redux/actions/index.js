@@ -13,9 +13,9 @@ export const login = (value) => ({
 //   // type: GET_TOKEN,
 // // })// ;
 
-export const getTokenSuccess = (tokenAPI) => ({
+export const getTokenSuccess = (token) => ({
   type: GET_TOKEN_SUCCESS,
-  tokenAPI,
+  token,
 });
 
 export const getTokenFail = (error) => ({
@@ -43,8 +43,8 @@ export const fetchToken = async () => {
 
 export const fetchTokenThunk = () => async (dispatch) => {
   try {
-    const tokenAPI = await fetchToken();
-    dispatch(getTokenSuccess(tokenAPI));
+    const { token } = await fetchToken();
+    dispatch(getTokenSuccess(token));
   } catch (error) {
     dispatch(getTokenFail(error));
   }

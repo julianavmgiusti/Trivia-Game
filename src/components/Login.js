@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fetchTokenThunk } from '../redux/actions';
 
 class Login extends Component {
@@ -49,6 +50,15 @@ class Login extends Component {
         >
           Play
         </button>
+        <Link to="/settings">
+          <button
+            className="button"
+            data-testid="btn-settings"
+            type="button"
+          >
+            Configuração
+          </button>
+        </Link>
       </section>
     );
   }

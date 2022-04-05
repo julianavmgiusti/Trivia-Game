@@ -1,6 +1,10 @@
-const LOGIN = 'LOGIN';
+export const LOGIN = 'LOGIN';
 const START = 'START';
 const RECEIVE_API = 'RECEIVE_API';
+export const ADD_QUEST = 'ADD_QUEST';
+export const ADD_TOKEN = 'ADD_TOKEN';
+export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
+export const GET_TOKEN_FAIL = 'GET_TOKEN_FAIL';
 
 export const login = (value) => ({
   type: LOGIN,
@@ -23,8 +27,39 @@ export const requestApi = (token) => async (dispatch) => {
   return dispatch(actionApi(result));
 };
 
-// {
-//   "response_code":0,
-//   "response_message":"Token Generated Successfully!",
-//   "token":"f00cb469ce38726ee00a7c6836761b0a4fb808181a125dcde6d50a9f3c9127b6"
-// }
+export const getTokenSuccess = (token) => ({
+  type: GET_TOKEN_SUCCESS,
+  token,
+});
+
+export const getTokenFail = (error) => ({
+  type: GET_TOKEN_FAIL,
+  error,
+});
+
+export const addToken = (payload) => ({
+  type: ADD_TOKEN,
+  payload,
+});
+
+export const addQuest = (payload) => ({
+  type: ADD_QUEST,
+  payload,
+});
+
+const tokenURL = 'https://opentdb.com/api_token.php?command=request';
+
+export const fetchToken = async () => {
+  const response = await fetch(tokenURL);
+  const tokenResponse = await response.json();
+  return Promise.resolve(tokenResponse);
+};
+
+export const fetchTokenThunk = () => async (dispatch) => {
+  try {
+    const { token } = await fetchToken();
+    dispatch(getTokenSuccess(token));
+  } catch (error) {
+    dispatch(getTokenFail(error));
+  }
+};

@@ -63,6 +63,7 @@ export const fetchTokenThunk = () => async (dispatch) => {
   try {
     const { token } = await fetchToken();
     dispatch(getTokenSuccess(token));
+    dispatch(requestApi(token));
   } catch (error) {
     dispatch(getTokenFail(error));
   }

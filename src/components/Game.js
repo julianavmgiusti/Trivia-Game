@@ -9,6 +9,15 @@ export default class Game extends Component {
     };
   }
 
+  handleClick = () => {
+    const correct = document.querySelector('.correct');
+    const wrong = document.getElementsByClassName('wrong');
+    correct.style.border = '3px solid rgb(6, 240, 15)';
+    for (let i = 0; i < wrong.length; i += 1) {
+      wrong[i].style.border = '3px solid rgb(255, 0, 0) ';
+    }
+  }
+
   handleAlternatives = (count) => {
     const { results } = this.props;
     const meio = 0.5;
@@ -20,12 +29,20 @@ export default class Game extends Component {
             type="button"
             data-testid="correct-answer"
             key={ i }
+            className="correct"
+            onClick={ this.handleClick }
           >
             { answer }
           </button>);
       }
       return (
-        <button data-testid={ `wrong-answer-${i}` } type="button" key={ i }>
+        <button
+          data-testid={ `wrong-answer-${i}` }
+          type="button"
+          key={ i }
+          className="wrong"
+          onClick={ this.handleClick }
+        >
           { answer }
         </button>
       );

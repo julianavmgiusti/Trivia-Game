@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchTokenThunk } from '../redux/actions';
+import { fetchTokenThunk, login } from '../redux/actions';
 
 class Login extends Component {
   state = {
@@ -24,7 +24,7 @@ class Login extends Component {
 
   render() {
     const { name, email, isDisabled } = this.state;
-    const { getToken } = this.props;
+    const { getToken, history: { push }, user } = this.props;
     return (
 
       <section>
@@ -46,7 +46,11 @@ class Login extends Component {
           type="button"
           data-testid="btn-play"
           disabled={ isDisabled }
-          onClick={ getToken }
+          onClick={ () => {
+            getToken();
+            user(name, email);
+            push('/play');
+          } }
         >
           Play
         </button>
@@ -65,11 +69,13 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  getToken: PropTypes.func.isRequired,
-};
+  getToken: PropTypes.func,
+  history: PropTypes.shape,
+}.isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(fetchTokenThunk()),
+  user: (name, email) => dispatch(login(name, email)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

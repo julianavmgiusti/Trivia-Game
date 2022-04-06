@@ -2,31 +2,39 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import Header from './Header';
-import { requestApi } from '../redux/actions';
+import { requestApi, fetchTokenThunk } from '../redux/actions';
 
 const numThree = 3;
 class Play extends Component {
-  state = {
-    count: 0,
+  constructor() {
+    super();
+    this.state = {
+      count: 0,
+    };
   }
 
   componentDidMount() {
+    console.log('entrou');
     this.verify();
   }
 
   verify = () => {
-    const { token, gameApi } = this.props;
+    const { token, gameApi, fetchToken } = this.props;
+    console.log(token);
     gameApi(token);
     const { resultsApi } = this.props;
-    if (resultsApi.response_code === numThree) gameApi('');
+    if (resultsApi.response_code === numThree) {
+      fetchToken();
+      gameApi(token);
+    }
   }
 
   // https://www.ngeeks.com/javascript-avanzado-desordenar-un-array/
 
-  handleAlternatives = () => {
-    const { results } = this.props;
+  handleAlternatives = (count) => {
+    const { resultsApi: { results } } = this.props;
     const meio = 0.5;
-    const array = [...results.incorrect_answer, results.correct_answer];
+    const array = [...results[count].incorrect_answers, results[count].correct_answer];
     return array.map((answer, i) => {
       if (i === array.length - 1) {
         return (
@@ -50,28 +58,31 @@ class Play extends Component {
   render() {
     const { count } = this.state;
     const { resultsApi: { results } } = this.props;
+    console.log(results);
     return (
       <div>
         <Header />
+        { results !== undefined
+        && (
+          <section>
+            <h1 data-testid="question-category">
+              {
+                results[count].category
+              }
 
-        <h1 data-testid="question-category">
-          {
-            results[count].category
-          }
+            </h1>
+            <p data-testid="question-text">
+              {
+                results[count].question
+              }
 
-        </h1>
-        <p data-testid="question-text">
-          {
-            results[count].question
-          }
-
-        </p>
-        <section>
-          <div data-testid="answer-options">
-            { this.handleAlternatives() }
-          </div>
-        </section>
-
+            </p>
+            <section>
+              <div data-testid="answer-options">
+                { this.handleAlternatives(count) }
+              </div>
+            </section>
+          </section>)}
       </div>
     );
   }
@@ -79,11 +90,12 @@ class Play extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   gameApi: (token) => dispatch(requestApi(token)),
+  fetchToken: () => dispatch(fetchTokenThunk()),
 });
 
 const mapStateToProps = (state) => ({
-  token: state.myReduce.token,
-  resultsApi: state.myReduce.results,
+  token: state.token,
+  resultsApi: state.questions.question,
 });
 
 Play.propTypes = {

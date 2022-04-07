@@ -6,7 +6,23 @@ export default class Game extends Component {
     super();
     this.state = {
       count: 0,
+      isDisabled: true,
+      timer: 30,
+      rightAnswer: '',
+      answers: [],
     };
+  }
+
+  componentDidMount = () => {
+    const { count } = this.state;
+    this.handleInterval();
+    this.handleAlternatives(count);
+    // const buttons = this.handleAlternatives(count);
+    // console.log(buttons);
+    // this.setState({ button: buttons }, () => {
+    //   const { button } = this.state;
+    //   console.log(button);
+    // });
   }
 
   handleClick = () => {
@@ -18,40 +34,45 @@ export default class Game extends Component {
     }
   }
 
+  handleInterval = () => {
+    const fiveSeconds = 5000;
+    const thirtySeconds = 30000;
+    const one = 1000;
+    setTimeout(() => {
+      this.setState({ isDisabled: false });
+    }, fiveSeconds);
+    setTimeout(() => {
+      this.setState({ isDisabled: true });
+      this.handleClick();
+    }, thirtySeconds);
+
+    setInterval(() => {
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }));
+    }, one);
+  }
+
   handleAlternatives = (count) => {
     const { results } = this.props;
+    console.log(results);
+    const { isDisabled } = this.state;
     const meio = 0.5;
     const array = [...results[count].incorrect_answers, results[count].correct_answer];
-    return array.map((answer, i) => {
-      if (i === array.length - 1) {
-        return (
-          <button
-            type="button"
-            data-testid="correct-answer"
-            key={ i }
-            className="correct"
-            onClick={ this.handleClick }
-          >
-            { answer }
-          </button>);
-      }
-      return (
-        <button
-          data-testid={ `wrong-answer-${i}` }
-          type="button"
-          key={ i }
-          className="wrong"
-          onClick={ this.handleClick }
-        >
-          { answer }
-        </button>
-      );
-    })
-      .sort(() => Math.random() - meio);
+    const answers = array.sort(() => Math.random() - meio);
+    this.setState({
+      rightAnswer: results[count].correct_answer,
+      answers,
+    });
+  }
+
+  teste = () => {
+
   }
 
   render() {
-    const { count } = this.state;
+    const { count, timer, answers, rightAnswer } = this.state;
+    // console.log(button);
     const { results } = this.props;
     return (
       <div>
@@ -73,8 +94,38 @@ export default class Game extends Component {
             </p>
             <section>
               <div data-testid="answer-options">
-                { this.handleAlternatives(count) }
+                { answers
+                  .map((answer, i) => {
+                    if (answer === rightAnswer) {
+                      return (
+                        <button
+                          type="button"
+                          data-testid="correct-answer"
+                          key={ i }
+                          className="correct"
+                          onClick={ this.handleClick }
+                          disabled={ isDisabled }
+                        >
+                          { answer }
+                        </button>);
+                    }
+                    return (
+                      <button
+                        data-testid={ `wrong-answer-${i}` }
+                        type="button"
+                        key={ i }
+                        className="wrong"
+                        onClick={ this.handleClick }
+                        disabled={ isDisabled }
+                      >
+                        { answer }
+                      </button>
+                    );
+                  }) }
               </div>
+            </section>
+            <section>
+              {timer}
             </section>
           </section>)}
       </div>

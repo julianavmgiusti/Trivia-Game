@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { addScore } from '../redux/actions';
 
 class Game extends Component {
@@ -13,6 +14,7 @@ class Game extends Component {
       answers: [],
       rightAnswer: '',
       next: false,
+      lastQuestion: false,
     };
   }
 
@@ -96,13 +98,48 @@ class Game extends Component {
   handleAlternatives = (count) => {
     const { results } = this.props;
     const meio = 0.5;
-    const array = [...results[0].incorrect_answers, results[count].correct_answer];
+    const array = [...results[count].incorrect_answers, results[count].correct_answer];
+    console.log(array);
     return array
       .sort(() => Math.random() - meio);
   }
 
+  nextQuestion = () => {
+    const { count } = this.state;
+    const forNum = 4;
+    if (count < forNum) {
+      this.setState((prevState) => ({
+        count: prevState.count + 1,
+        timer: 30,
+        next: false,
+      }), () => {
+        const { props: { results } } = this;
+        const buttons = this.handleAlternatives(count);
+        this.setState({
+          answers: buttons,
+          rightAnswer: results[count].correct_answer,
+        });
+        const correct = document.querySelector('.correct');
+        const wrong = document.getElementsByClassName('wrong');
+        correct.style.border = '';
+        for (let i = 0; i < wrong.length; i += 1) {
+          wrong[i].style.border = '';
+        }
+      });
+    } else {
+      this.setState({ lastQuestion: true });
+    }
+  }
+
   render() {
-    const { count, timer, answers, rightAnswer, isDisabled, next } = this.state;
+    const {
+      count,
+      timer,
+      answers,
+      rightAnswer,
+      isDisabled,
+      next,
+      lastQuestion } = this.state;
     const { results } = this.props;
     return (
       <div>
@@ -151,12 +188,24 @@ class Game extends Component {
                   })
                 }
               </div>
-              { next && <button type="button" data-testid="btn-next">Next</button> }
+              { next
+                && (
+                  <button
+                    type="button"
+                    data-testid="btn-next"
+                    onClick={ this.nextQuestion }
+                  >
+                    Next
+                  </button>
+                ) }
             </section>
             <section>
               {timer}
             </section>
           </section>)}
+        {lastQuestion && (
+          <Redirect to="/feedback" />
+        )}
       </div>
     );
   }

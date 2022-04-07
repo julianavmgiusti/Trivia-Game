@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addScore } from '../redux/actions';
 
-export default class Game extends Component {
+class Game extends Component {
   constructor() {
     super();
     this.state = {
@@ -24,13 +26,41 @@ export default class Game extends Component {
     });
   }
 
-  handleClick = () => {
-    console.log('clicou');
+  handleClick = ({ target }) => {
     const correct = document.querySelector('.correct');
     const wrong = document.getElementsByClassName('wrong');
     correct.style.border = '3px solid rgb(6, 240, 15)';
     for (let i = 0; i < wrong.length; i += 1) {
       wrong[i].style.border = '3px solid rgb(255, 0, 0) ';
+    }
+
+    this.answerClick(target);
+  }
+
+  answerClick = (target) => {
+    const correct = document.querySelector('.correct');
+    const { sumScore } = this.props;
+    const dez = 10;
+    const mult = this.difficultyValue();
+    if (target === correct) {
+      sumScore((dez + (0 * mult)));
+    }
+  }
+
+  difficultyValue = () => {
+    const { props: { results }, state: { count } } = this;
+    const multi = results[count].difficulty;
+    const HARD = 3;
+
+    switch (multi) {
+    case 'hard':
+      return HARD;
+    case 'medium':
+      return 2;
+    case 'easy':
+      return 1;
+    default:
+      return 1;
     }
   }
 
@@ -124,6 +154,12 @@ export default class Game extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  sumScore: (score) => dispatch(addScore(score)),
+});
+
 Game.propTypes = {
   results: propTypes.arrayOf(propTypes.object),
 }.isRequired;
+
+export default connect(null, mapDispatchToProps)(Game);

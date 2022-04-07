@@ -7,13 +7,13 @@ import { requestApi, fetchTokenThunk } from '../redux/actions';
 
 class Play extends Component {
   render() {
-    const { resultsApi: { results } } = this.props;
+    const { resultsApi: { results }, score } = this.props;
 
     return (
       <section>
         { results && (
           <div>
-            <Header />
+            <Header score={ score } />
             <Game results={ results } />
           </div>)}
       </section>
@@ -29,6 +29,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   token: state.token,
   resultsApi: state.questions.question,
+  score: state.player.score,
 });
 
 Play.propTypes = {

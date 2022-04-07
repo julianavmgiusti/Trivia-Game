@@ -16,13 +16,12 @@ cryptoEmail = () => {
 }
 
 render() {
-  const { user: { name }, hash } = this.props;
-  console.log(md5('email@pessoa.com').toString());
+  const { user: { name }, hash, score } = this.props;
   return (
     <section>
       <img src={ `https://www.gravatar.com/avatar/${hash}` } alt="user-gravatar" data-testid="header-profile-picture" />
       <p data-testid="header-player-name">{name}</p>
-      <p data-testid="header-score">0</p>
+      <p data-testid="header-score">{ score }</p>
     </section>
   );
 }
@@ -33,7 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  user: state.login,
+  user: state.player,
   hash: state.questions.hash,
 });
 

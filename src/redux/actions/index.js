@@ -1,11 +1,12 @@
 export const LOGIN = 'LOGIN';
-const START = 'START';
-const RECEIVE_API = 'RECEIVE_API';
+export const START = 'START';
+export const RECEIVE_API = 'RECEIVE_API';
 export const ADD_QUEST = 'ADD_QUEST';
 export const ADD_TOKEN = 'ADD_TOKEN';
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_TOKEN_FAIL = 'GET_TOKEN_FAIL';
 export const GET_HASH = 'GET_HASH';
+export const SCORE = 'SCORE';
 
 export const login = (name, email) => ({
   type: LOGIN,
@@ -14,6 +15,11 @@ export const login = (name, email) => ({
 });
 export const actionInicial = () => ({
   type: START,
+});
+
+export const addScore = (score) => ({
+  type: SCORE,
+  score,
 });
 
 export const getHash = (hash) => ({ type: GET_HASH, hash });
@@ -56,6 +62,7 @@ const tokenURL = 'https://opentdb.com/api_token.php?command=request';
 export const fetchToken = async () => {
   const response = await fetch(tokenURL);
   const tokenResponse = await response.json();
+  console.log(tokenResponse);
   return Promise.resolve(tokenResponse);
 };
 

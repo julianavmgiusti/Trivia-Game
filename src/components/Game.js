@@ -12,6 +12,7 @@ class Game extends Component {
       timer: 30,
       answers: [],
       rightAnswer: '',
+      next: false,
     };
   }
 
@@ -38,6 +39,9 @@ class Game extends Component {
     for (let i = 0; i < wrong.length; i += 1) {
       wrong[i].style.border = '3px solid rgb(255, 0, 0) ';
     }
+    this.setState({
+      next: true,
+    });
   }
 
     answerClick = (target) => {
@@ -98,8 +102,7 @@ class Game extends Component {
   }
 
   render() {
-    const { count, timer, answers, rightAnswer, isDisabled } = this.state;
-    console.log(answers);
+    const { count, timer, answers, rightAnswer, isDisabled, next } = this.state;
     const { results } = this.props;
     return (
       <div>
@@ -148,6 +151,7 @@ class Game extends Component {
                   })
                 }
               </div>
+              { next && <button type="button" data-testid="btn-next">Next</button> }
             </section>
             <section>
               {timer}

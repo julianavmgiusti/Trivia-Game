@@ -27,63 +27,67 @@ class Game extends Component {
   }
 
   handleClick = ({ target }) => {
+    this.changeColor();
+    this.answerClick(target);
+  }
+
+  changeColor = () => {
     const correct = document.querySelector('.correct');
     const wrong = document.getElementsByClassName('wrong');
     correct.style.border = '3px solid rgb(6, 240, 15)';
     for (let i = 0; i < wrong.length; i += 1) {
       wrong[i].style.border = '3px solid rgb(255, 0, 0) ';
     }
-
-    this.answerClick(target);
   }
 
-  answerClick = (target) => {
-    const correct = document.querySelector('.correct');
-    const { sumScore } = this.props;
-    const dez = 10;
-    const mult = this.difficultyValue();
-    if (target === correct) {
-      sumScore((dez + (0 * mult)));
-    }
-  }
+    answerClick = (target) => {
+      const correct = document.querySelector('.correct');
+      const { sumScore } = this.props;
+      const { timer } = this.state;
+      const dez = 10;
+      const mult = this.difficultyValue();
+      if (target === correct) {
+        sumScore((dez + (timer * mult)));
+      }
+    };
 
-  difficultyValue = () => {
-    const { props: { results }, state: { count } } = this;
-    const multi = results[count].difficulty;
-    const HARD = 3;
+    difficultyValue = () => {
+      const { props: { results }, state: { count } } = this;
+      const multi = results[count].difficulty;
+      const HARD = 3;
 
-    switch (multi) {
-    case 'hard':
-      return HARD;
-    case 'medium':
-      return 2;
-    case 'easy':
-      return 1;
-    default:
-      return 1;
-    }
-  }
+      switch (multi) {
+      case 'hard':
+        return HARD;
+      case 'medium':
+        return 2;
+      case 'easy':
+        return 1;
+      default:
+        return 1;
+      }
+    };
 
-  handleInterval = () => {
-    const fiveSeconds = 5000;
-    const thirtySeconds = 30000;
-    const one = 1000;
-    setTimeout(() => {
-      this.setState({ isDisabled: false });
-    }, fiveSeconds);
-    setTimeout(() => {
-      this.setState({ isDisabled: true });
-      this.handleClick();
-    }, thirtySeconds);
+    handleInterval = () => {
+      const fiveSeconds = 5000;
+      const thirtySeconds = 30000;
+      const one = 1000;
+      setTimeout(() => {
+        this.setState({ isDisabled: false });
+      }, fiveSeconds);
+      setTimeout(() => {
+        this.setState({ isDisabled: true });
+        this.changeColor();
+      }, thirtySeconds);
 
-    const count = setInterval(() => {
-      this.setState((prevState) => {
-        if (prevState.timer < 1) clearInterval(count);
-        return { timer: prevState.timer - 1,
-        };
-      });
-    }, one);
-  }
+      const count = setInterval(() => {
+        this.setState((prevState) => {
+          if (prevState.timer === 1) clearInterval(count);
+          return { timer: prevState.timer - 1,
+          };
+        });
+      }, one);
+    };
 
   handleAlternatives = (count) => {
     const { results } = this.props;

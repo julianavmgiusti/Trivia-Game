@@ -10,10 +10,13 @@ class Play extends Component {
     const { resultsApi: { results } } = this.props;
 
     return (
-      <div>
-        <Header />
-        <Game results={ results } />
-      </div>
+      <section>
+        { results && (
+          <div>
+            <Header />
+            <Game results={ results } />
+          </div>)}
+      </section>
     );
   }
 }

@@ -19,9 +19,11 @@ render() {
   const { user: { name }, hash, score } = this.props;
   return (
     <section>
-      <img src={ `https://www.gravatar.com/avatar/${hash}` } alt="user-gravatar" data-testid="header-profile-picture" />
-      <p data-testid="header-player-name">{name}</p>
-      <p data-testid="header-score">{ score }</p>
+      <div>
+        <img src={ `https://www.gravatar.com/avatar/${hash}` } alt="user-gravatar" data-testid="header-profile-picture" />
+        <p data-testid="header-player-name">{name}</p>
+        <p data-testid="header-score">{ score }</p>
+      </div>
     </section>
   );
 }
@@ -34,6 +36,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   user: state.player,
   hash: state.questions.hash,
+  score: state.player.score,
 });
 
 Header.propTypes = {

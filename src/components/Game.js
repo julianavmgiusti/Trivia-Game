@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { addScore } from '../redux/actions';
+import { addScore, setAssertions } from '../redux/actions';
 
 class Game extends Component {
   constructor() {
@@ -15,6 +15,7 @@ class Game extends Component {
       rightAnswer: '',
       next: false,
       lastQuestion: false,
+      assertions: 0,
     };
   }
 
@@ -27,6 +28,10 @@ class Game extends Component {
       answers: buttons,
       rightAnswer: results[count].correct_answer,
     });
+  }
+
+  componentWillUnmount() {
+    this.handleInterval();
   }
 
   handleClick = ({ target }) => {
@@ -54,6 +59,9 @@ class Game extends Component {
       const mult = this.difficultyValue();
       if (target === correct) {
         sumScore((dez + (timer * mult)));
+        this.setState((prevState) => ({
+          assertions: prevState.assertions + 1,
+        }));
       }
     };
 
@@ -99,7 +107,6 @@ class Game extends Component {
     const { results } = this.props;
     const meio = 0.5;
     const array = [...results[count].incorrect_answers, results[count].correct_answer];
-    console.log(array);
     return array
       .sort(() => Math.random() - meio);
   }
@@ -127,7 +134,9 @@ class Game extends Component {
         }
       });
     } else {
-      this.setState({ lastQuestion: true });
+      const { assertionsQuestions } = this.props;
+      const { assertions } = this.state;
+      this.setState({ lastQuestion: true }, () => assertionsQuestions(assertions));
     }
   }
 
@@ -213,6 +222,7 @@ class Game extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   sumScore: (score) => dispatch(addScore(score)),
+  assertionsQuestions: (assertions) => dispatch(setAssertions(assertions)),
 });
 
 Game.propTypes = {

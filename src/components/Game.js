@@ -30,10 +30,6 @@ class Game extends Component {
     });
   }
 
-  componentWillUnmount() {
-    this.handleInterval();
-  }
-
   handleClick = ({ target }) => {
     this.changeColor();
     this.answerClick(target);

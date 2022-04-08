@@ -9,35 +9,53 @@ class Feedbacks extends Component {
     history.push('/');
   }
 
+  showRanking = () => {
+    const { history } = this.props;
+    history.push('/ranking');
+  }
+
   render() {
     const correctAnswers = 3;
     const { assertions, score } = this.props;
+    console.log(assertions);
     return (
-      <div className="container">
-        <div className="container-feedback">
-          <Header />
-          <div data-testid="feedback-text">
-            { assertions < correctAnswers
-              ? <p>Could be better...</p> : <h4>Well Done!</h4> }
+      <section>
+        { assertions !== undefined && (
+          <div className="container">
+            <div className="container-feedback">
+              <Header />
+              <div data-testid="feedback-text">
+                { assertions < correctAnswers
+                  ? <p>Could be better...</p> : <h4>Well Done!</h4> }
+              </div>
+              <div>
+                Correct Answers:
+                <h3 data-testid="feedback-total-question">{assertions}</h3>
+              </div>
+              <span>
+                Final Score:
+                <p data-testid="feedback-total-score">{score}</p>
+              </span>
+              <button
+                className="button"
+                type="button"
+                data-testid="btn-play-again"
+                onClick={ this.playAgain }
+              >
+                Jogar Novamente
+              </button>
+              <button
+                className="button"
+                type="button"
+                data-testid="btn-ranking"
+                onClick={ this.showRanking }
+              >
+                Ranking
+              </button>
+            </div>
           </div>
-          <div>
-            Correct Answers:
-            <h3 data-testid="feedback-total-question">{assertions}</h3>
-          </div>
-          <span>
-            Final Score:
-            <p data-testid="feedback-total-score">{score}</p>
-          </span>
-          <button
-            className="button"
-            type="button"
-            data-testid="btn-play-again"
-            onClick={ this.playAgain }
-          >
-            Jogar Novamente
-          </button>
-        </div>
-      </div>
+        )}
+      </section>
     );
   }
 }

@@ -4,7 +4,6 @@ const initialState = {
   name: '',
   email: '',
   score: 0,
-  assertions: '',
 };
 
 function loginReducer(state = initialState, action) {

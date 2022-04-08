@@ -7,6 +7,7 @@ export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_TOKEN_FAIL = 'GET_TOKEN_FAIL';
 export const GET_HASH = 'GET_HASH';
 export const SCORE = 'SCORE';
+export const SET_ASSERTIONS = 'SET_ASSERTIONS';
 
 export const login = (name, email) => ({
   type: LOGIN,
@@ -75,3 +76,8 @@ export const fetchTokenThunk = () => async (dispatch) => {
     dispatch(getTokenFail(error));
   }
 };
+
+export const setAssertions = (payload) => ({
+  type: SET_ASSERTIONS,
+  payload,
+});

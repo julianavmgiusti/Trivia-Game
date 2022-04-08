@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Ranking extends Component {
   state = {
@@ -17,8 +18,8 @@ class Ranking extends Component {
 
   ratingPlayers = () => {
     const players = JSON.parse(localStorage.getItem('players'));
-
-    const rankedPlayers = players.sort((a, b) => b.score - a.score);
+    const rankedPlayers = players.sort((a, b) => b.assertions - a.assertions);
+    console.log(rankedPlayers);
     this.setState({
       rank: rankedPlayers,
     });
@@ -59,8 +60,12 @@ class Ranking extends Component {
   }
 }
 
-Ranking.propTypes = {
-  history: PropTypes.instanceOf(Object).isRequired,
-};
+const mapStateToProps = (state) => ({
+  playersScore: state.player,
+  hash: state.questions.hash,
+});
 
-export default Ranking;
+Ranking.propTypes = {
+  history: PropTypes.object }.isRequired;
+
+export default connect(mapStateToProps)(Ranking);

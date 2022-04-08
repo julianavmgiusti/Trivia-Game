@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 class Feedbacks extends Component {
+  componentDidMount() {
+    this.setItems();
+  }
+
   playAgain = () => {
     const { history } = this.props;
     history.push('/');
@@ -14,16 +18,28 @@ class Feedbacks extends Component {
     history.push('/ranking');
   }
 
+  setItems = () => {
+    const { name, hash, score, assertions } = this.props;
+    const src = `https://www.gravatar.com/avatar/${hash}`;
+    let players = [];
+    if (JSON.parse(localStorage.getItem('players'))) {
+      players = JSON.parse(localStorage.getItem('players'));
+    }
+    players.push({ score, assertions, name, img: src });
+    const stringArray = JSON.stringify(players);
+    localStorage.setItem('players', stringArray);
+  }
+
   render() {
     const correctAnswers = 3;
     const { assertions, score } = this.props;
-    console.log(assertions);
+    console.log(assertions, typeof (assertions));
     return (
       <section>
-        { assertions !== undefined && (
+        {assertions !== undefined && (
           <div className="container">
+            <Header />
             <div className="container-feedback">
-              <Header />
               <div data-testid="feedback-text">
                 { assertions < correctAnswers
                   ? <p>Could be better...</p> : <h4>Well Done!</h4> }
@@ -66,7 +82,9 @@ Feedbacks.propTypes = {
 
 const mapStateToProps = (state) => ({
   score: state.player.score,
-  assertions: state.questions.assertions,
+  assertions: state.player.assertions,
+  name: state.player.name,
+  hash: state.questions.hash,
 });
 
 export default connect(mapStateToProps)(Feedbacks);

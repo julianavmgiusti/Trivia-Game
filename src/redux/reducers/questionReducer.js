@@ -1,5 +1,3 @@
-import { SET_ASSERTIONS } from '../actions';
-
 const START = 'START';
 const GET_HASH = 'GET_HASH';
 const RECEIVE_API = 'RECEIVE_API';
@@ -7,7 +5,6 @@ const RECEIVE_API = 'RECEIVE_API';
 const INICIAL_STATE = {
   question: {},
   hash: '',
-  assertions: 0,
 };
 
 const questionReducer = (state = INICIAL_STATE, action) => {
@@ -17,8 +14,6 @@ const questionReducer = (state = INICIAL_STATE, action) => {
     ...state,
     question: action.data,
   };
-  case SET_ASSERTIONS:
-    return { ...state, assertions: action.payload };
   case GET_HASH:
     return {
       ...state,

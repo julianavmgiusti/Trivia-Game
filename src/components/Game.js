@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { addScore, setAssertions } from '../redux/actions';
+import './game.css';
 
 class Game extends Component {
   constructor() {
@@ -151,15 +152,15 @@ class Game extends Component {
       lastQuestion } = this.state;
     const { results } = this.props;
     return (
-      <div>
+      <div className="gameSheet">
         { results && (
-          <section>
+          <section className="gameChart">
             <h1 data-testid="question-category">
               {
                 results[count].category
               }
             </h1>
-            <p data-testid="question-text">
+            <p className="question" data-testid="question-text">
               {
                 results[count].question
               }
@@ -175,7 +176,7 @@ class Game extends Component {
                           data-testid="correct-answer"
                           id="correct"
                           key={ i }
-                          className="correct"
+                          className="correct btnAnswer"
                           onClick={ this.handleClick }
                           disabled={ isDisabled }
                         >
@@ -187,7 +188,7 @@ class Game extends Component {
                         data-testid={ `wrong-answer-${i}` }
                         type="button"
                         key={ i }
-                        className="wrong"
+                        className="wrong btnAnswer"
                         onClick={ this.handleClick }
                         disabled={ isDisabled }
                       >
@@ -200,6 +201,7 @@ class Game extends Component {
               { next
                 && (
                   <button
+                    className="btNext"
                     type="button"
                     data-testid="btn-next"
                     onClick={ this.nextQuestion }

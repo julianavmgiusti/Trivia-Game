@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import './feedback.css';
 
 class Feedbacks extends Component {
   componentDidMount() {
@@ -39,35 +40,37 @@ class Feedbacks extends Component {
         {assertions !== undefined && (
           <div className="container">
             <Header />
-            <div className="container-feedback">
-              <div data-testid="feedback-text">
-                { assertions < correctAnswers
-                  ? <p>Could be better...</p> : <h4>Well Done!</h4> }
+            <div className="container-feedback gameSheet">
+              <div className="resultContainer">
+                <div data-testid="feedback-text">
+                  { assertions < correctAnswers
+                    ? <p>Could be better...</p> : <h4>Well Done!</h4> }
+                </div>
+                <div>
+                  Correct Answers:
+                  <h3 data-testid="feedback-total-question">{assertions}</h3>
+                </div>
+                <span>
+                  Final Score:
+                  <p data-testid="feedback-total-score">{score}</p>
+                </span>
+                <button
+                  cclassName="button buttonFeed"
+                  type="button"
+                  data-testid="btn-play-again"
+                  onClick={ this.playAgain }
+                >
+                  Jogar Novamente
+                </button>
+                <button
+                  className="button buttonFeed"
+                  type="button"
+                  data-testid="btn-ranking"
+                  onClick={ this.showRanking }
+                >
+                  Ranking
+                </button>
               </div>
-              <div>
-                Correct Answers:
-                <h3 data-testid="feedback-total-question">{assertions}</h3>
-              </div>
-              <span>
-                Final Score:
-                <p data-testid="feedback-total-score">{score}</p>
-              </span>
-              <button
-                className="button"
-                type="button"
-                data-testid="btn-play-again"
-                onClick={ this.playAgain }
-              >
-                Jogar Novamente
-              </button>
-              <button
-                className="button"
-                type="button"
-                data-testid="btn-ranking"
-                onClick={ this.showRanking }
-              >
-                Ranking
-              </button>
             </div>
           </div>
         )}

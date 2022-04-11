@@ -1,57 +1,112 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: 0;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: purple;
 }
 
-.red-border {
-  border: 1px solid red;
+.logoLogin {
+  height: 30%;
+  margin-bottom: 50px;
+  width: 150%;
 }
 
-.green-border {
-  border: 1px solid green;
+.logoHeader {
+  height: 75px;
+  width: 200px;
 }
 
-@media ( prefers-reduced-motion : no-preference ) {
-
-  .App-logo {
-    animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  }
+h1, h2, h3 {
+  color: #113753;
+  margin: 16px;
+  padding: 12px;
 }
 
-.App-header {
+.Login_Container {
+  align-content: center;
   align-items: center;
-  background-color: #282c34;
-  color: white;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.Form_Container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  font-size: calc(10px + 2vmin);
+  height: 600px;
   justify-content: center;
-  min-height: 100vh;
+  width: 350px;
 }
 
-.App-link {
-  color: #61dafb;
+label {
+  padding: 4px;
 }
 
-@keyframes shake {
+.emailId {
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 10px;
+  color: #113753;
+  font-size: 16px;
+  margin: 4px;
+  margin-bottom: 12px;
+  outline: none;
+  padding: 12px 16px;
+  width: 80%;
+}
 
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0);
-  }
+.nameId {
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 10px;
+  color: #113753;
+  font-size: 16px;
+  margin: 4px;
+  outline: none;
+  padding: 12px 16px;
+  width: 80%;
+}
 
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
+.buttonLogin {
+  background-color: yellow;
+  border: none;
+  border-radius: 10px;
+  color: #113753;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+  padding: 0.8rem;
+  transition: 0.1s;
+  width: 67%;
+}
 
-  30%, 50%, 70% {
-    transform: translate3d(-4px, 0, 0);
-  }
+.buttonConfig {
+  background-color: yellow;
+  border: none;
+  border-radius: 10px;
+  color: #113753;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 4px;
+  padding: 0.5rem;
+  transition: 0.1s;
+  width: 90%;
+}
 
-  40%, 60% {
-    transform: translate3d(4px, 0, 0);
-  }
+.headerNav {
+  background-color: purple;
+  display: flex;
+  justify-content: space-between;
+}
+
+.headerInfo {
+  color: white;
+  font-size: 16px;
+  margin: 4px;
+  padding: 4px;
 }

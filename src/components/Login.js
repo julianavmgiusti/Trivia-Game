@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchTokenThunk, login } from '../redux/actions';
+import trivia from '../trivia.png';
 
 class Login extends Component {
   state = {
@@ -27,43 +28,56 @@ class Login extends Component {
     const { getToken, history: { push }, user } = this.props;
     return (
 
-      <section>
-        <input
-          type="text"
-          data-testid="input-player-name"
-          value={ name }
-          name="name"
-          onChange={ this.handleChange }
-        />
-        <input
-          type="email"
-          data-testid="input-gravatar-email"
-          value={ email }
-          name="email"
-          onChange={ this.handleChange }
-        />
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ isDisabled }
-          onClick={ () => {
-            getToken();
-            user(name, email);
-            push('/play');
-          } }
-        >
-          Play
-        </button>
-        <Link to="/settings">
+      <div className="Login_Container">
+        <div className="Form_Container">
+          <img src={ trivia } alt="logo" className="logoLogin" />
+          <label htmlFor="nameId">
+            <input
+              className="nameId"
+              type="text"
+              data-testid="input-player-name"
+              value={ name }
+              name="name"
+              onChange={ this.handleChange }
+              placeholder="Nome"
+            />
+          </label>
+          <label htmlFor="emailId">
+            <input
+              id="emailId"
+              className="emailId"
+              type="email"
+              data-testid="input-gravatar-email"
+              value={ email }
+              name="email"
+              onChange={ this.handleChange }
+              placeholder="Email"
+            />
+          </label>
           <button
-            className="button"
-            data-testid="btn-settings"
+            className="buttonLogin"
             type="button"
+            data-testid="btn-play"
+            disabled={ isDisabled }
+            onClick={ () => {
+              getToken();
+              user(name, email);
+              push('/play');
+            } }
           >
-            Configuração
+            Play
           </button>
-        </Link>
-      </section>
+          <Link to="/settings">
+            <button
+              className="buttonConfig"
+              data-testid="btn-settings"
+              type="button"
+            >
+              Configuração
+            </button>
+          </Link>
+        </div>
+      </div>
     );
   }
 }

@@ -1,0 +1,52 @@
+.gameSheet {
+  align-content: center;
+  align-items: center;
+  background-color: white;
+  display: flex;
+  height: 500px;
+  justify-content: center;
+  width: 100%;
+}
+
+.gameChart {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.question {
+  margin: 10px;
+  padding: 5px;
+}
+
+.answer {
+  margin: 10px;
+  padding: 4px;
+}
+
+.btnAnswer {
+  background-color: yellow;
+  border: none;
+  border-radius: 10px;
+  color: #113753;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 4px;
+  padding: 0.5rem;
+  transition: 0.1s;
+  width: 90%;
+}
+
+.btNext {
+  background-color: purple;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 4px;
+  padding: 0.5rem;
+  transition: 0.1s;
+  width: 90%;
+}
